@@ -97,8 +97,8 @@ class GameScene extends Phaser.Scene {
         let cardHeight = cardTexture.height + 4;
         // let cardWidth = 280 + 4;
         // let cardHeight = 280 + 4;
-        let offsetX = (this.sys.game.config.width - cardWidth * config.cols) / 2;
-        let offsetY = (this.sys.game.config.height - cardHeight * config.rows) / 2;
+        let offsetX = (this.sys.game.config.width - cardWidth * config.cols) / 2 + cardWidth / 2;
+        let offsetY = (this.sys.game.config.height - cardHeight * config.rows) / 2 + cardHeight / 2;
         // let offsetX = 55;
         // let offsetY = 20;
 
