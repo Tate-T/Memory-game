@@ -47,6 +47,9 @@ class GameScene extends Phaser.Scene {
     }
 
     onCardClicked(pointer, card) {
+        if (card.opened) {
+            return false;
+        }
         if (this.openedCard) {
             if (this.openedCard.value === card.value) {
                 this.openedCard = null;
