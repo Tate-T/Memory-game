@@ -136,7 +136,7 @@ class GameScene extends Phaser.Scene {
     onTimerTick() {
         this.timeoutText.setText('Time:' + this.timeout);
         if (this.timeout <= 0) {
-            this.start();
+            this.startGame();
         } else {
             --this.timeout;
         }
