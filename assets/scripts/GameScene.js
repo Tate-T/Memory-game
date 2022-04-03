@@ -20,7 +20,22 @@ class GameScene extends Phaser.Scene {
         // this.add.sprite(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'bg');
         this.createBackground();
         this.createCards();
+        this.startGame();
+    }
+
+    startGame() {
         this.openedCard = null;
+        this.openedCardsCount = 0;
+        this.initCards();
+    }
+
+    initCards() {
+        let positions = this.getCardsPosition();
+        this.cards.forEach(card => {
+            let position = positions.pop();
+            card.closeCard();
+            card.setPosition(position.x, position.y);
+        })
     }
 
     createBackground() {
@@ -29,17 +44,23 @@ class GameScene extends Phaser.Scene {
 
     createCards() {
         this.cards = [];
-        let positions = this.getCardsPosition();
+        // let positions = this.getCardsPosition();
         // for (let position of positions) {
         //     this.cards.push(new Card(this, position));
         //     // this.add.sprite(position.x, position.y, 'card').setOrigin(0, 0);
         // }
 
-        Phaser.Utils.Array.Shuffle(positions);
+        // Phaser.Utils.Array.Shuffle(positions);
+
+        // for (let value of config.cards) {
+        //     for (let i = 0; i < 2; i++) {
+        //         this.cards.push(new Card(this, value, positions.pop()));
+        //     }
+        // }
 
         for (let value of config.cards) {
             for (let i = 0; i < 2; i++) {
-                this.cards.push(new Card(this, value, positions.pop()));
+                this.cards.push(new Card(this, value));
             }
         }
 
@@ -53,6 +74,7 @@ class GameScene extends Phaser.Scene {
         if (this.openedCard) {
             if (this.openedCard.value === card.value) {
                 this.openedCard = null;
+                ++this.openedCardsCount;
             } else {
                 this.openedCard.closeCard();
                 this.openedCard = card;
@@ -62,6 +84,10 @@ class GameScene extends Phaser.Scene {
         }
 
         card.openCard();
+
+        if (this.openedCardsCount === this.cards.length / 2) {
+            this.startGame();
+        }
     }
 
     getCardsPosition() {
@@ -85,7 +111,7 @@ class GameScene extends Phaser.Scene {
                 });
             }
         }
-        return cardsPosition;
+        return Phaser.Utils.Array.Shuffle(cardsPosition);
     }
 }
 
