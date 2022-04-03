@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "",
   "main": "index.js",
-  "homepage": "https://Tate-T.github.io/Memory-game",
+  "homepage": "https://tate-t.github.io/Memory-game",
   "scripts": {
     "dev": "parcel src/*.html",
     "build": "parcel build src/*.html --public-url /Memory-game/"
