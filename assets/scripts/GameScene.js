@@ -16,6 +16,7 @@ class GameScene extends Phaser.Scene {
         this.load.audio('open', 'assets/sounds/open.mp3');
         this.load.audio('success', 'assets/sounds/success.mp3');
         this.load.audio('complete', 'assets/sounds/complete.mp3');
+        this.load.audio('timer', 'assets/sounds/timer.mp3');
         this.load.audio('timeout', 'assets/sounds/timeout.mp3');
 
     }
@@ -147,10 +148,13 @@ class GameScene extends Phaser.Scene {
 
     onTimerTick() {
         this.timeoutText.setText('Time:' + this.timeout);
+
         if (this.timeout <= 0) {
-            this.startGame();
-        } else {
             this.sounds.timeout.play();
+            this.startGame();
+            this.sounds.theme.play({ volume: 0.1 });
+        } else {
+            this.sounds.timer.play();
             --this.timeout;
         }
     }
@@ -160,6 +164,7 @@ class GameScene extends Phaser.Scene {
             open: this.sound.add('open'),
             complete: this.sound.add('complete'),
             success: this.sound.add('success'),
+            timer: this.sound.add('timer'),
             timeout: this.sound.add('timeout'),
             theme: this.sound.add('theme'),
         };
