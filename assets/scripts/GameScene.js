@@ -22,15 +22,15 @@ class GameScene extends Phaser.Scene {
 
     getCardsPosition() {
         let cardsPosition = [];
-        // let cardTexture = this.textures.get('card').getSourceImage();
-        // let cardWidth = cardTexture.width + 4;
-        // let cardHeight = cardTexture.height + 4;
-        let cardWidth = 280 + 4;
-        let cardHeight = 280 + 4;
-        // let offsetX = (this.sys.game.config.width - cardWidth * config.cols) / 2;
-        // let offsetY = (this.sys.game.config.heigth - cardHeight * config.rows) / 2;
-        let offsetX = 55;
-        let offsetY = 20;
+        let cardTexture = this.textures.get('card').getSourceImage();
+        let cardWidth = cardTexture.width + 4;
+        let cardHeight = cardTexture.height + 4;
+        // let cardWidth = 280 + 4;
+        // let cardHeight = 280 + 4;
+        let offsetX = (this.sys.game.config.width - cardWidth * config.cols) / 2;
+        let offsetY = (this.sys.game.config.height - cardHeight * config.rows) / 2;
+        // let offsetX = 55;
+        // let offsetY = 20;
 
 
         for (let row = 0; row < config.rows; row++) {
@@ -41,7 +41,6 @@ class GameScene extends Phaser.Scene {
                 });
             }
         }
-
         return cardsPosition;
     }
 }

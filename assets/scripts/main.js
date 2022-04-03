@@ -1,10 +1,10 @@
 let config = {
     type: Phaser.AUTO, // webgl or canvas
-    width: 1200,
-    height: 720,
+    width: 1600,
+    height: 800,
     rows: 2,
     cols: 4,
-    scene: new GameScene(),
+    scene: new GameScene()
 }
 let game = new Phaser.Game(config);
 
