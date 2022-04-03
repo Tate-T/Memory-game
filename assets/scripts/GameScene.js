@@ -21,9 +21,12 @@ class GameScene extends Phaser.Scene {
         this.createBackground();
         this.createCards();
         this.startGame();
+        this.createTimer();
+        this.timeout = config.timeout;
     }
 
     startGame() {
+        this.timeout = config.timeout;
         this.openedCard = null;
         this.openedCardsCount = 0;
         this.initCards();
@@ -112,6 +115,34 @@ class GameScene extends Phaser.Scene {
             }
         }
         return Phaser.Utils.Array.Shuffle(cardsPosition);
+    }
+
+    createTimer() {
+        this.time.addEvent({
+            delay: 1000,
+            callback: this.onTimerTick,
+            callbackScope: this,
+            loop: true
+        })
+    }
+
+    // createText() {
+    //     this.timeoutText = this.add.text(10, 330, '', {
+    //         font: '36px CurseCasual',
+    //         fill: '#ffffff'
+    //     });
+    // }
+
+    onTimerTick() {
+        this.timeoutText = this.add.text(10, 330, 'Time:' + this.timeout, {
+            font: '36px CurseCasual',
+            fill: '#ffffff'
+        });
+        if (this.timeout <= 0) {
+            this.start();
+        } else {
+            --this.timeout;
+        }
     }
 }
 
