@@ -6,7 +6,7 @@ class Card extends Phaser.GameObjects.Sprite {
         this.setOrigin(0, 0);
         this.scene.add.existing(this);
         this.setInteractive();
-        this.on('pointerdown', this.openCard, this);
+        // this.on('pointerdown', this.openCard, this);
     }
 
     openCard() {
