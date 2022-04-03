@@ -7,11 +7,16 @@ class GameScene extends Phaser.Scene {
         // 1. Dounload background.
         this.load.image('bg', 'assets/sprites/background.png');
         this.load.image('card', 'assets/sprites/card.png');
-
         this.load.image('card1', 'assets/sprites/card1.png');
         this.load.image('card2', 'assets/sprites/card2.png');
         this.load.image('card3', 'assets/sprites/card3.png');
         this.load.image('card4', 'assets/sprites/card4.png');
+
+        this.load.audio('theme', 'assets/sounds/theme.mp3');
+        this.load.audio('open', 'assets/sounds/open.mp3');
+        this.load.audio('success', 'assets/sounds/success.mp3');
+        this.load.audio('complete', 'assets/sounds/complete.mp3');
+        this.load.audio('timeout', 'assets/sounds/timeout.mp3');
 
     }
 
@@ -23,6 +28,7 @@ class GameScene extends Phaser.Scene {
         this.startGame();
         this.createTimer();
         this.createText();
+        this.createSounds();
     }
 
     startGame() {
@@ -74,8 +80,13 @@ class GameScene extends Phaser.Scene {
         if (card.opened) {
             return false;
         }
+
+        this.sounds.open.play();
+
         if (this.openedCard) {
             if (this.openedCard.value === card.value) {
+
+                this.sounds.success.play();
                 this.openedCard = null;
                 ++this.openedCardsCount;
             } else {
@@ -89,6 +100,7 @@ class GameScene extends Phaser.Scene {
         card.openCard();
 
         if (this.openedCardsCount === this.cards.length / 2) {
+            this.sounds.complete.play();
             this.startGame();
         }
     }
@@ -138,8 +150,21 @@ class GameScene extends Phaser.Scene {
         if (this.timeout <= 0) {
             this.startGame();
         } else {
+            this.sounds.timeout.play();
             --this.timeout;
         }
+    }
+
+    createSounds() {
+        this.sounds = {
+            open: this.sound.add('open'),
+            complete: this.sound.add('complete'),
+            success: this.sound.add('success'),
+            timeout: this.sound.add('timeout'),
+            theme: this.sound.add('theme'),
+        };
+
+        this.sounds.theme.play({ volume: 0.1 });
     }
 }
 
