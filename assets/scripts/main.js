@@ -4,7 +4,8 @@ let config = {
     height: 800,
     rows: 2,
     cols: 4,
-    scene: new GameScene()
+    cards: [1, 2, 3, 4],
+    scene: new GameScene(),
 }
 let game = new Phaser.Game(config);
 
