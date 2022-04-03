@@ -20,6 +20,7 @@ class GameScene extends Phaser.Scene {
         // this.add.sprite(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'bg');
         this.createBackground();
         this.createCards();
+        this.openedCard = null;
     }
 
     createBackground() {
@@ -46,6 +47,17 @@ class GameScene extends Phaser.Scene {
     }
 
     onCardClicked(pointer, card) {
+        if (this.openedCard) {
+            if (this.openedCard.value === card.value) {
+                this.openedCard = null;
+            } else {
+                this.openedCard.closeCard();
+                this.openedCard = card;
+            }
+        } else {
+            this.openedCard = card;
+        }
+
         card.openCard();
     }
 
