@@ -32,7 +32,6 @@ class GameScene extends Phaser.Scene {
         this.createSounds();
     }
 
-
     createTimer() {
         this.timer = this.time.addEvent({
             delay: 1000,
@@ -188,8 +187,8 @@ class GameScene extends Phaser.Scene {
         this.timeoutText.setText('Time:' + this.timeout);
 
         if (this.timeout <= 0) {
-            this.timer.paused = true;
             this.sounds.timeout.play();
+            this.timer.paused = true;
             this.restartGame();
             this.sounds.theme.play({ volume: 0.1 });
         } else {
