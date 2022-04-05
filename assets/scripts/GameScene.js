@@ -32,12 +32,43 @@ class GameScene extends Phaser.Scene {
         this.createSounds();
     }
 
+
+    createTimer() {
+        this.timer = this.time.addEvent({
+            delay: 1000,
+            callback: this.onTimerTick,
+            callbackScope: this,
+            loop: true
+        })
+    }
+
     startGame() {
         this.timeout = config.timeout;
         this.openedCard = null;
         this.openedCardsCount = 0;
+        // this.timer.paused = false;
         this.initCards();
         this.showCards();
+    }
+
+    restartGame() {
+        let count = 0;
+        let onCardMoveComplete = () => {
+            ++count;
+            if (count >= this.cards.length) {
+                this.startGame()
+            }
+        }
+
+        this.cards.forEach(card => {
+            card.movePosition({
+                x: this.sys.game.config.width + card.width,
+                y: this.sys.game.config.height + card.height,
+                delay: card.position.delay,
+                callback: onCardMoveComplete
+            })
+        })
+        this.startGame()
     }
 
     initCards() {
@@ -101,7 +132,7 @@ class GameScene extends Phaser.Scene {
 
         if (this.openedCardsCount === this.cards.length / 2) {
             this.sounds.complete.play();
-            this.startGame();
+            this.restartGame();
         }
     }
 
@@ -140,14 +171,6 @@ class GameScene extends Phaser.Scene {
         return Phaser.Utils.Array.Shuffle(cardsPosition);
     }
 
-    createTimer() {
-        this.time.addEvent({
-            delay: 1000,
-            callback: this.onTimerTick,
-            callbackScope: this,
-            loop: true
-        })
-    }
 
     createText() {
         this.timeoutText = this.add.text(10, 330, '', {
@@ -160,8 +183,9 @@ class GameScene extends Phaser.Scene {
         this.timeoutText.setText('Time:' + this.timeout);
 
         if (this.timeout <= 0) {
+            this.timer.paused = true;
             this.sounds.timeout.play();
-            this.startGame();
+            this.restartGame();
             this.sounds.theme.play({ volume: 0.1 });
         } else {
             this.sounds.timer.play();

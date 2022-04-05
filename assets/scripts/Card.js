@@ -32,6 +32,9 @@ class Card extends Phaser.GameObjects.Sprite {
             ease: 'Liner',
             duration: 150,
             onComplete: () => {
+                if (params.callback) {
+                    params.callback()
+                }
             }
         });
         // this.setPosition(params.x, params.y)
