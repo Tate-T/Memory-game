@@ -37,14 +37,13 @@ class GameScene extends Phaser.Scene {
         this.openedCard = null;
         this.openedCardsCount = 0;
         this.initCards();
+        this.showCards();
     }
 
     initCards() {
         let positions = this.getCardsPosition();
         this.cards.forEach(card => {
-            let position = positions.pop();
-            card.closeCard();
-            card.setPosition(position.x, position.y);
+            card.init(positions.pop());
         })
     }
 
@@ -106,6 +105,16 @@ class GameScene extends Phaser.Scene {
         }
     }
 
+    showCards() {
+        this.cards.forEach(card => {
+            card.movePosition({
+                x: card.position.x,
+                y: card.position.y,
+                delay: card.position.delay
+            })
+        })
+    }
+
     getCardsPosition() {
         let cardsPosition = [];
         let cardTexture = this.textures.get('card').getSourceImage();
@@ -117,11 +126,12 @@ class GameScene extends Phaser.Scene {
         let offsetY = (this.sys.game.config.height - cardHeight * config.rows) / 2 + cardHeight / 2;
         // let offsetX = 55;
         // let offsetY = 20;
-
+        let id = 0;
 
         for (let row = 0; row < config.rows; row++) {
             for (let col = 0; col < config.cols; col++) {
                 cardsPosition.push({
+                    delay: ++id * 100,
                     x: offsetX + col * cardWidth,
                     y: offsetY + row * cardHeight,
                 });
