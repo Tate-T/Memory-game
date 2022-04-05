@@ -40,23 +40,23 @@ class Card extends Phaser.GameObjects.Sprite {
         // this.setPosition(params.x, params.y)
     }
 
-    flip() {
-        this.hideCard();
+    flip(callback) {
+        this.hideCard(callback);
     }
 
-    hideCard() {
+    hideCard(callback) {
         this.scene.tweens.add({
             targets: this,
             scaleX: 0,
             ease: 'Liner',
             duration: 150,
             onComplete: () => {
-                this.showCard();
+                this.showCard(callback);
             }
         });
     }
 
-    showCard() {
+    showCard(callback) {
         let texture = this.opened ? 'card' + this.value : 'card';
         this.setTexture(texture);
         this.scene.tweens.add({
@@ -64,12 +64,17 @@ class Card extends Phaser.GameObjects.Sprite {
             scaleX: 1,
             ease: 'Liner',
             duration: 150,
+            onComplete: () => {
+                if (callback) {
+                    callback()
+                }
+            }
         })
     }
 
-    openCard() {
+    openCard(callback) {
         this.opened = true;
-        this.hideCard();
+        this.hideCard(callback);
         // this.hideCard('card' + this.value);
         // this.setTexture('card' + this.value);
     }
